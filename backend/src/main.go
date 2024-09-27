@@ -2,7 +2,8 @@ package main
 
 import (
 	"broker-cryptocurrency/backend/src/healthcheck"
-	_server "broker-cryptocurrency/backend/src/server"
+	"broker-cryptocurrency/backend/src/system/orchestrator"
+	_server "broker-cryptocurrency/backend/src/system/server"
 	"runtime"
 )
 
@@ -11,8 +12,9 @@ func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	// create server
 	server := _server.CreateServer(8080)
-	// register routes
-	healthcheck.RegisterRoutes(*server.Router)
+	// Initialize features
+	initializers := []orchestrator.Initializer{&healthcheck.Healthcheck{}}
+	orchestrator.Orchestration(&initializers, *server.Router)
 	// start server
 	server.StartServer()
 }
