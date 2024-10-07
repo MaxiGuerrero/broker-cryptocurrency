@@ -1,7 +1,7 @@
 package register
 
 import (
-	response "broker-cryptocurrency/backend/src/system/server/responses"
+	response "broker-cryptocurrency/backend/src/system/responses"
 	"broker-cryptocurrency/backend/src/users/models"
 
 	"github.com/gofiber/fiber/v2"

@@ -1,4 +1,4 @@
-package server
+package system
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/gofiber/swagger"
 
-	responses "broker-cryptocurrency/backend/src/system/server/responses"
+	responses "broker-cryptocurrency/backend/src/system/responses"
 )
 
 /*
