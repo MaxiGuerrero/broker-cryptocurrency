@@ -12,8 +12,13 @@ func main() {
 	// create server
 	server := system.CreateServer(8080)
 	// Initialize features
-	initializers := []system.Route{&healthcheck.Healthcheck{}}
-	system.RegisterRoutes(&initializers, *server.Router)
+	system.RegisterRoutes(getRouters(), *server.Router)
 	// start server
 	server.StartServer()
+}
+
+func getRouters() *[]system.Route {
+	// Here, it list all features handlers of your system.
+	// Can also remove and add features handlers in the slice.
+	return &[]system.Route{&healthcheck.Healthcheck{}}
 }
