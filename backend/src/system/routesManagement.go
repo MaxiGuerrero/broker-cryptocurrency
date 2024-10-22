@@ -2,12 +2,10 @@ package system
 
 import "github.com/gofiber/fiber/v2"
 
-type Route interface {
-	Handler(router fiber.Router)
-}
+type Handler func(router fiber.Router)
 
-func RegisterRoutes(routes *[]Route, router fiber.Router) {
-	for _, route := range *routes {
-		route.Handler(router)
+func RegisterRoutes(handlers *[]Handler, router fiber.Router) {
+	for _, handler := range *handlers {
+		handler(router)
 	}
 }
