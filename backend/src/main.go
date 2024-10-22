@@ -12,7 +12,8 @@ func main() {
 	// create server
 	server := system.CreateServer(8080)
 	// Initialize features
-	system.RegisterRoutes(getHandlers(), *server.Router)
+	healthcheck.InitContainer()
+	system.PlugInFeatures(getHandlers(), *server.Router)
 	// start server
 	server.StartServer()
 }
