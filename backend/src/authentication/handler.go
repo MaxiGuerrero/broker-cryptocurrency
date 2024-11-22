@@ -1,4 +1,4 @@
-package register
+package authentication
 
 import (
 	response "broker-cryptocurrency/backend/src/system/responses"

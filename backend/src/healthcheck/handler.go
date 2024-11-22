@@ -7,7 +7,7 @@ import (
 // Entrypoint of feature
 func Handler(router fiber.Router) {
 	router.Get("/healthcheck", func(c *fiber.Ctx) error {
-		healthCheckController := getDependencyContainer().healthCheckController
+		healthCheckController := container.healthCheckController
 		response := healthCheckController.controller()
 		return c.Status(response.Code).JSON(response)
 	})

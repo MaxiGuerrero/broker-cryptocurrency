@@ -1,4 +1,4 @@
-package healthcheck
+package authentication
 
 type ContainerDependency struct {
 	healthCheckController *HealthCheckController
