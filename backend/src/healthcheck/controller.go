@@ -1,6 +1,6 @@
 package healthcheck
 
-import responses "broker-cryptocurrency/backend/src/system/responses"
+import responses "backend/src/system/responses"
 
 type HealthCheckController struct{}
 

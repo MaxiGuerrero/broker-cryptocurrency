@@ -1,21 +1,17 @@
 package authentication
 
 import (
-	response "broker-cryptocurrency/backend/src/system/responses"
-	"broker-cryptocurrency/backend/src/users/models"
+	"backend/src/authentication/models"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-type Register struct{}
-
-func (r *Register) Entrypoint(router fiber.Router) {
+func Handler(router fiber.Router) {
 	router.Post("/register", func(c *fiber.Ctx) error {
-		req := models.CreateUserRequest{}
-		if parseError := c.BodyParser(&req); parseError != nil {
-			return c.Status(400).JSON(response.BadRequest(parseError.Error()))
-		}
-		response := CreateUserController(req)
+		authController := container.authController
+		req := models.RegisterRequest{}
+		c.BodyParser(&req)
+		response := authController.register(req)
 		return c.Status(response.Code).JSON(response)
 	})
 }

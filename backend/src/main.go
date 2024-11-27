@@ -1,8 +1,9 @@
 package main
 
 import (
-	"broker-cryptocurrency/backend/src/healthcheck"
-	system "broker-cryptocurrency/backend/src/system"
+	"backend/src/authentication"
+	"backend/src/healthcheck"
+	system "backend/src/system"
 	"runtime"
 )
 
@@ -22,10 +23,14 @@ func main() {
 func getHandlers() *[]system.Handler {
 	// Here, it list all features handlers of the system.
 	// Can also remove and add features handlers in the slice.
-	return &[]system.Handler{healthcheck.Handler}
+	return &[]system.Handler{
+		healthcheck.Handler,
+		authentication.Handler,
+	}
 }
 
 func initAllDependencies() {
 	// Here, it call all methods init dependencies of the system.
 	healthcheck.InitContainerDependency()
+	authentication.InitContainerDependency()
 }

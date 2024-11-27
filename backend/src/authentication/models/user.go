@@ -28,5 +28,3 @@ type User struct {
 	DeletedAt time.Time `json:"deleted_at"`
 	Role      string    `json:"role"`
 }
-
-type Users []User

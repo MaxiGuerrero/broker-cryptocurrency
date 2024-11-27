@@ -12,7 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/gofiber/swagger"
 
-	responses "broker-cryptocurrency/backend/src/system/responses"
+	responses "backend/src/system/responses"
 )
 
 /*

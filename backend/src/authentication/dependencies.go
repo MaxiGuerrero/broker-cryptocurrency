@@ -1,7 +1,7 @@
 package authentication
 
 type ContainerDependency struct {
-	healthCheckController *HealthCheckController
+	authController *AuthController
 }
 
 var container *ContainerDependency
@@ -9,6 +9,10 @@ var container *ContainerDependency
 // Initialize container dependency
 func InitContainerDependency() {
 	container = &ContainerDependency{
-		healthCheckController: &HealthCheckController{},
+		authController: &AuthController{
+			AuthService: &AuthService{
+				AuthRepository: &AuthRepository{},
+			},
+		},
 	}
 }
