@@ -10,8 +10,8 @@ var container *ContainerDependency
 func InitContainerDependency() {
 	container = &ContainerDependency{
 		authController: &AuthController{
-			AuthService: &AuthService{
-				AuthRepository: &AuthRepository{},
+			authService: &AuthService{
+				authRepository: &AuthRepository{},
 			},
 		},
 	}

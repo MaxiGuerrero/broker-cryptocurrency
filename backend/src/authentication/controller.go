@@ -8,11 +8,11 @@ import (
 )
 
 type AuthController struct {
-	AuthService interfaces.IAuthService
+	authService interfaces.IAuthService
 }
 
-func (a *AuthController) register(req models.RegisterRequest) *response.Response {
-	if badSchema := utils.ValidateSchema(&req); badSchema != nil {
+func (a *AuthController) register(req *models.RegisterRequest) *response.Response {
+	if badSchema := utils.ValidateSchema(req); badSchema != nil {
 		return response.BadRequest(badSchema.Error())
 	}
 	return response.OK()
