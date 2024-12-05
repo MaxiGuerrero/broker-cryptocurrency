@@ -28,3 +28,9 @@ type User struct {
 	DeletedAt time.Time `json:"deleted_at"`
 	Role      string    `json:"role"`
 }
+
+type UserInfo struct {
+	ID       string
+	Username string
+	Role     string
+}

@@ -8,6 +8,8 @@ import (
 )
 
 func main() {
+	// Init Dotenv
+	system.InitLoadEnv()
 	// Run go routines in parallelism based on CPUs of your server
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	// create server
@@ -16,6 +18,8 @@ func main() {
 	initAllDependencies()
 	// Registering all handlers of each module in the system
 	system.RegisterHandlers(getHandlers(), *server.Router)
+	// Init database
+
 	// start server
 	server.StartServer()
 }

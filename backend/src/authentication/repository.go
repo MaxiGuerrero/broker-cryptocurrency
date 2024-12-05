@@ -1,7 +1,14 @@
 package authentication
 
-type AuthRepository struct{}
+import (
+	"backend/src/authentication/models"
+	"backend/src/system"
+)
 
-func (a AuthRepository) CreateUser(username, password, email string) error {
+type AuthRepository struct {
+	database *system.Database
+}
+
+func (a AuthRepository) CreateUser(username, password, email string) *models.UserInfo {
 	return nil
 }
