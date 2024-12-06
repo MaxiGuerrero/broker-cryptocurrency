@@ -30,7 +30,7 @@ type User struct {
 }
 
 type UserInfo struct {
-	ID       string
-	Username string
-	Role     string
+	UserId   string `json:"userId"`
+	Username string `json:"username"`
+	Role     string `json:"role"`
 }

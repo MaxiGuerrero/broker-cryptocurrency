@@ -1,5 +1,7 @@
 package authentication
 
+import "backend/src/system"
+
 type ContainerDependency struct {
 	authController *AuthController
 }
@@ -7,11 +9,12 @@ type ContainerDependency struct {
 var container *ContainerDependency
 
 // Initialize container dependency
-func InitContainerDependency() {
+func InitContainerDependency(db *system.Database) {
 	container = &ContainerDependency{
 		authController: &AuthController{
 			authService: &AuthService{
-				authRepository: &AuthRepository{},
+				authRepository: &AuthRepository{database: db},
+				encrypter:      &system.Encrypter{},
 			},
 		},
 	}
