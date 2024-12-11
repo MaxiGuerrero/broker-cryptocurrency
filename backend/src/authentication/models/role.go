@@ -9,5 +9,5 @@ const (
 
 // Method to get the string of the role type.
 func (s Role) String() string {
-	return []string{"ADMIN", "USER"}[s]
+	return []string{"Admin", "User"}[s]
 }

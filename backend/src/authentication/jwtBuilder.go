@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 var JWTSecret = []byte(os.Getenv("JWT_SECRET"))
@@ -49,7 +48,7 @@ func (j JWTBuilder) ValidateToken(tokenString string) (*models.Payload, error) {
 		return nil, errors.New("")
 	}
 	payload := &models.Payload{
-		UserId:    claims["userId"].(primitive.ObjectID),
+		UserId:    claims["userId"].(string),
 		Username:  claims["username"].(string),
 		CreatedAt: claims["createdAt"].(time.Time),
 		UpdatedAt: claims["updatedAt"].(time.Time),

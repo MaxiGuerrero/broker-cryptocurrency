@@ -11,9 +11,19 @@ type AuthController struct {
 	authService interfaces.IAuthService
 }
 
-func (a *AuthController) register(req *models.RegisterRequest) *response.Response {
+func NewAuthController(authService interfaces.IAuthService) *AuthController {
+	return &AuthController{
+		authService,
+	}
+}
+
+func (a *AuthController) Register(req *models.RegisterRequest) *response.Response {
 	if badSchema := utils.ValidateSchema(req); badSchema != nil {
 		return response.BadRequest(badSchema.Error())
 	}
-	return response.OK()
+	userInfo, err := a.authService.Register(req.Username, req.Password, req.Email)
+	if err != nil {
+		return response.BadRequest(err.Error())
+	}
+	return response.OK_WITH_DATA(userInfo)
 }

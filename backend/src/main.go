@@ -4,6 +4,7 @@ import (
 	"backend/src/authentication"
 	"backend/src/healthcheck"
 	system "backend/src/system"
+	"backend/src/system/database"
 	"context"
 	"runtime"
 )
@@ -17,7 +18,7 @@ func main() {
 	// create server
 	server := system.CreateServer(8080)
 	// Init database
-	db := system.NewDatabase(ctx)
+	db := database.NewDatabase(ctx)
 	// Initalize dependencies
 	initAllDependencies(db)
 	// Registering all handlers of each module in the system
@@ -35,7 +36,7 @@ func getHandlers() *[]system.Handler {
 	}
 }
 
-func initAllDependencies(db *system.Database) {
+func initAllDependencies(db *database.Database) {
 	// Here, it call all methods init dependencies of the system.
 	healthcheck.InitContainerDependency()
 	authentication.InitContainerDependency(db)

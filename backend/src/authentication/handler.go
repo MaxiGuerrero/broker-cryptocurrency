@@ -11,7 +11,7 @@ func Handler(router fiber.Router) {
 		authController := container.authController
 		req := models.RegisterRequest{}
 		c.BodyParser(&req)
-		response := authController.register(&req)
+		response := authController.Register(&req)
 		return c.Status(response.Code).JSON(response)
 	})
 }
