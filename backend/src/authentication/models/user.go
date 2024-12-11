@@ -17,7 +17,7 @@ type User struct {
 }
 
 type UserInfo struct {
-	UserId   string `json:"userId"`
+	UserId   string `json:"user_id"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Role     string `json:"role"`

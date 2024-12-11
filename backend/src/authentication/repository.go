@@ -40,14 +40,9 @@ func (a *AuthRepository) CreateUser(username, password, email string) *models.Us
 	}
 }
 
-func (a *AuthRepository) FindUserByUsernameAndEmail(username, email string) *models.User {
+func (a *AuthRepository) FindUserByUsername(username string) *models.User {
 	var result bson.M
-	filter := bson.M{
-		"$or": []bson.M{
-			{"username": username},
-			{"email": email},
-		},
-	}
+	filter := bson.M{"username": username}
 	err := a.database.GetCollection(usersCollection).FindOne(context.TODO(), filter).Decode(&result)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {

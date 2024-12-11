@@ -1,4 +1,4 @@
-package mocks
+package fakes
 
 import (
 	"backend/src/authentication/models"
@@ -18,8 +18,8 @@ func (a *FakeAuthRepository) CreateUser(username, password, email string) *model
 	return args.Get(0).(*models.UserInfo)
 }
 
-func (a *FakeAuthRepository) FindUserByUsernameAndEmail(username, email string) *models.User {
-	args := a.Called(username, email)
+func (a *FakeAuthRepository) FindUserByUsername(username string) *models.User {
+	args := a.Called(username)
 	if args.Get(0) == nil {
 		return nil
 	}

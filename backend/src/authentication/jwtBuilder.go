@@ -10,10 +10,17 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var JWTSecret = []byte(os.Getenv("JWT_SECRET"))
-
 // Responsable to implement the JWT token.
-type JWTBuilder struct{}
+type JWTBuilder struct {
+	secret []byte
+}
+
+func NewJWTBuilder() *JWTBuilder {
+	var JWTSecret = []byte(os.Getenv("JWT_SECRET"))
+	return &JWTBuilder{
+		secret: JWTSecret,
+	}
+}
 
 // Build token of a exists user.
 func (j JWTBuilder) BuildToken(payload *models.Payload) string {
@@ -25,7 +32,7 @@ func (j JWTBuilder) BuildToken(payload *models.Payload) string {
 		"deletedAt": payload.DeletedAt,
 		"role":      payload.Role,
 	})
-	tokenString, err := token.SignedString(JWTSecret)
+	tokenString, err := token.SignedString(j.secret)
 	if err != nil {
 		log.Panicf("Error to generate token: %v", err.Error())
 	}
@@ -38,7 +45,7 @@ func (j JWTBuilder) ValidateToken(tokenString string) (*models.Payload, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("invalid signing method")
 		}
-		return JWTSecret, nil
+		return j.secret, nil
 	})
 	if err != nil {
 		return nil, err
@@ -48,11 +55,11 @@ func (j JWTBuilder) ValidateToken(tokenString string) (*models.Payload, error) {
 		return nil, errors.New("")
 	}
 	payload := &models.Payload{
-		UserId:    claims["userId"].(string),
+		UserId:    claims["user_id"].(string),
 		Username:  claims["username"].(string),
-		CreatedAt: claims["createdAt"].(time.Time),
-		UpdatedAt: claims["updatedAt"].(time.Time),
-		DeletedAt: claims["deletedAt"].(time.Time),
+		CreatedAt: claims["created_at"].(time.Time),
+		UpdatedAt: claims["updated_at"].(time.Time),
+		DeletedAt: claims["deleted_at"].(time.Time),
 		Role:      claims["role"].(string),
 	}
 	return payload, nil

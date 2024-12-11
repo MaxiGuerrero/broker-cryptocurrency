@@ -17,6 +17,7 @@ func InitContainerDependency(db *database.Database) {
 			authService: &AuthService{
 				authRepository: &AuthRepository{database: db},
 				encrypter:      &Encrypter{},
+				jwtBuilder:     NewJWTBuilder(),
 			},
 		},
 	}

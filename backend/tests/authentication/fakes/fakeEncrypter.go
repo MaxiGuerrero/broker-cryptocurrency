@@ -1,4 +1,4 @@
-package mocks
+package fakes
 
 import (
 	"github.com/stretchr/testify/mock"

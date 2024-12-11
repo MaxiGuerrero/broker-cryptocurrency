@@ -27,3 +27,14 @@ func (a *AuthController) Register(req *models.RegisterRequest) *response.Respons
 	}
 	return response.OK_WITH_DATA(userInfo)
 }
+
+func (a *AuthController) Login(req *models.LoginRequest) *response.Response {
+	if badSchema := utils.ValidateSchema(req); badSchema != nil {
+		return response.BadRequest(badSchema.Error())
+	}
+	token, err := a.authService.Login(req.Username, req.Password)
+	if err != nil {
+		return response.BadRequest(err.Error())
+	}
+	return response.OK_WITH_DATA(&models.LoginResponse{Token: *token})
+}

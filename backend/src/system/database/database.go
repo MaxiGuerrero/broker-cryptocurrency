@@ -14,6 +14,7 @@ import (
 
 type Database struct {
 	client *mongo.Client
+	dbName string
 }
 
 func NewDatabase(ctxParent context.Context) *Database {
@@ -32,13 +33,13 @@ func NewDatabase(ctxParent context.Context) *Database {
 	log.Printf("Pinged your database %v. You successfully connected to MongoDB!", DbName)
 	return &Database{
 		client: cli,
+		dbName: DbName,
 	}
 }
 
 func (d *Database) GetCollection(collection string) *mongo.Collection {
-	var DbName = os.Getenv("DB_NAME")
 	if d.client == nil {
 		log.Fatalln("Database client is not initialized, call NewDatabase() in main.go")
 	}
-	return d.client.Database(DbName).Collection(collection)
+	return d.client.Database(d.dbName).Collection(collection)
 }
