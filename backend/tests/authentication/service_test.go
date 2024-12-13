@@ -3,6 +3,7 @@ package authentication_test
 import (
 	"backend/src/authentication"
 	"backend/src/authentication/models"
+	"backend/src/system"
 	"backend/tests/authentication/fakes"
 	"testing"
 	"time"
@@ -39,13 +40,10 @@ var userInfoMock = &models.UserInfo{
 	Role:     userMock.Role.String(),
 }
 
-var payload = &models.Payload{
-	UserId:    userMock.ID,
-	Username:  userMock.Username,
-	CreatedAt: userMock.CreatedAt,
-	UpdatedAt: userMock.UpdatedAt,
-	DeletedAt: userMock.DeletedAt,
-	Role:      userMock.Role.String(),
+var payload = &system.Payload{
+	UserId:   userMock.ID,
+	Username: userMock.Username,
+	Role:     userMock.Role.String(),
 }
 
 func Test_Service_Register_Success(t *testing.T) {

@@ -1,14 +1,19 @@
-package authentication
+package system
 
 import (
-	"backend/src/authentication/models"
 	"errors"
 	"log"
 	"os"
-	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
+
+// Struct that represent the payload of the JWT token.
+type Payload struct {
+	UserId   string `json:"userId" bson:"_id,omitempty"`
+	Username string `json:"username"`
+	Role     string `json:"role"`
+}
 
 // Responsable to implement the JWT token.
 type JWTBuilder struct {
@@ -22,15 +27,18 @@ func NewJWTBuilder() *JWTBuilder {
 	}
 }
 
+const (
+	userId   = "userId"
+	username = "username"
+	role     = "role"
+)
+
 // Build token of a exists user.
-func (j JWTBuilder) BuildToken(payload *models.Payload) string {
+func (j JWTBuilder) BuildToken(payload *Payload) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"userId":    payload.UserId,
-		"username":  payload.Username,
-		"createdAt": payload.CreatedAt,
-		"updatedAt": payload.UpdatedAt,
-		"deletedAt": payload.DeletedAt,
-		"role":      payload.Role,
+		userId:   payload.UserId,
+		username: payload.Username,
+		role:     payload.Role,
 	})
 	tokenString, err := token.SignedString(j.secret)
 	if err != nil {
@@ -40,7 +48,8 @@ func (j JWTBuilder) BuildToken(payload *models.Payload) string {
 }
 
 // Validate if a token is correct.
-func (j JWTBuilder) ValidateToken(tokenString string) (*models.Payload, error) {
+func (j JWTBuilder) ValidateToken(tokenString string) (Payload, error) {
+	payload := Payload{}
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("invalid signing method")
@@ -48,19 +57,14 @@ func (j JWTBuilder) ValidateToken(tokenString string) (*models.Payload, error) {
 		return j.secret, nil
 	})
 	if err != nil {
-		return nil, err
+		return payload, err
 	}
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok && !token.Valid {
-		return nil, errors.New("")
+		return payload, errors.New("cannot claim the payload")
 	}
-	payload := &models.Payload{
-		UserId:    claims["user_id"].(string),
-		Username:  claims["username"].(string),
-		CreatedAt: claims["created_at"].(time.Time),
-		UpdatedAt: claims["updated_at"].(time.Time),
-		DeletedAt: claims["deleted_at"].(time.Time),
-		Role:      claims["role"].(string),
-	}
+	payload.UserId = claims[userId].(string)
+	payload.Username = claims[username].(string)
+	payload.Role = claims[role].(string)
 	return payload, nil
 }

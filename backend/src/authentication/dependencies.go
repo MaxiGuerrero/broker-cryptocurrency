@@ -1,7 +1,9 @@
 package authentication
 
 import (
+	"backend/src/system"
 	"backend/src/system/database"
+	"backend/src/wallet"
 )
 
 type ContainerDependency struct {
@@ -15,9 +17,9 @@ func InitContainerDependency(db *database.Database) {
 	container = &ContainerDependency{
 		authController: &AuthController{
 			authService: &AuthService{
-				authRepository: &AuthRepository{database: db},
+				authRepository: &AuthRepository{database: db, iWalletRepository: &wallet.WalletRepository{Database: db}},
 				encrypter:      &Encrypter{},
-				jwtBuilder:     NewJWTBuilder(),
+				jwtBuilder:     system.NewJWTBuilder(),
 			},
 		},
 	}

@@ -2,6 +2,7 @@ package authentication
 
 import (
 	"backend/src/authentication/models"
+	"backend/src/common/interfaces"
 	"backend/src/system/database"
 	"context"
 	"log"
@@ -12,13 +13,14 @@ import (
 )
 
 type AuthRepository struct {
-	database *database.Database
+	database          *database.Database
+	iWalletRepository interfaces.IWalletRepository
 }
 
 const usersCollection = "users"
 
 func (a *AuthRepository) CreateUser(username, password, email string) *models.UserInfo {
-	result, err := a.database.GetCollection(usersCollection).InsertOne(context.TODO(), models.User{
+	resultCreateUser, err := a.database.GetCollection(usersCollection).InsertOne(context.TODO(), models.User{
 		Username:  username,
 		Password:  password,
 		Email:     email,
@@ -27,12 +29,14 @@ func (a *AuthRepository) CreateUser(username, password, email string) *models.Us
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	})
+	userId := database.ObjectIDToString(resultCreateUser.InsertedID)
 	if err != nil {
 		log.Panicf("Error on create user document: %v", err.Error())
 	}
+	a.iWalletRepository.CreateWallet(userId)
 	log.Printf("User %v has been registered", username)
 	return &models.UserInfo{
-		UserId:   database.ObjectIDToString(result.InsertedID),
+		UserId:   userId,
 		Username: username,
 		Email:    email,
 		Role:     models.USER.String(),

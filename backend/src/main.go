@@ -5,6 +5,7 @@ import (
 	"backend/src/healthcheck"
 	system "backend/src/system"
 	"backend/src/system/database"
+	"backend/src/wallet"
 	"context"
 	"runtime"
 )
@@ -33,6 +34,7 @@ func getHandlers() *[]system.Handler {
 	return &[]system.Handler{
 		healthcheck.Handler,
 		authentication.Handler,
+		wallet.Handler,
 	}
 }
 
@@ -40,4 +42,5 @@ func initAllDependencies(db *database.Database) {
 	// Here, it call all methods init dependencies of the system.
 	healthcheck.InitContainerDependency()
 	authentication.InitContainerDependency(db)
+	wallet.InitContainerDependency(db)
 }

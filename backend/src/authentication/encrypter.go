@@ -8,13 +8,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var costAlgorithmicEncrypter, _ = strconv.Atoi(os.Getenv("COST_ALGORITHMIC_ENCRYPTER"))
-
 // Responsable to implement the logical encrypter. It implement the encrypter interface.
 type Encrypter struct{}
 
 // Implementation to generate a hash.
 func (e Encrypter) GenerateHash(password string) string {
+	var costAlgorithmicEncrypter, _ = strconv.Atoi(os.Getenv("COST_ALGORITHMIC_ENCRYPTER"))
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), costAlgorithmicEncrypter)
 	if err != nil {
 		log.Panicf("Cannot encrypt it, %v", err.Error())
