@@ -5,3 +5,5 @@ This is an project with only purpose of practice with block chain management and
 ## Architecture
 
 The project will have an backend writer in Golang, i want practice build an project monolith in golang.
+
+Then, the frontend will be a react/angular project.
